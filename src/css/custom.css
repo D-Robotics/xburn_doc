@@ -1,0 +1,107 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #FF5125;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Dify Chatbot Official CSS Variables */
+  --dify-chatbot-bubble-button-bg-color: #FF5125;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #FF5125;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* 控制目录右侧缩进层级 */
+.table-of-contents__link--level-3 {
+  margin-left: 1rem;
+}
+
+.table-of-contents__link--level-4 {
+  margin-left: 2rem;
+  font-size: 0.95em;
+  color: #666;
+}
+
+.table-of-contents__link--level-5 {
+  margin-left: 3rem;
+  font-size: 0.9em;
+  color: #999;
+}
+
+/* Dify Chatbot Styles - Based on Official Documentation */
+/* #dify-chatbot-bubble-button {
+  background-color: var(--dify-chatbot-bubble-button-bg-color) !important;
+  box-shadow: 0 0 0 0 rgba(255, 81, 37, 0.7) !important;
+  animation: pulse-orange 2s infinite;
+}
+
+@keyframes pulse-orange {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 81, 37, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 81, 37, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 81, 37, 0);
+  }
+}
+
+#dify-chatbot-bubble-window {
+  width: 600px !important;
+  height: 500px !important;
+  border: none !important;
+  background-color: #ffffff !important; /* Restored white background 
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+} */
+
+#dify-chatbot-bubble-window iframe {
+  transform: scale(0.9);
+  transform-origin: top left;
+  width: 105.3% !important;
+  height: 105.3% !important;
+}
+
+
+/* 表格样式 */
+.markdown table {
+  width: 100%;
+  display: table; /* 覆盖默认的 display: block */
+}
+
+/* 确保表格容器也占满宽度 */
+.markdown {
+  width: 100%;
+}
+
+/* 文档内容区域 */
+.theme-doc-markdown {
+  margin-bottom: 30px;
+}
+

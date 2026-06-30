@@ -1,0 +1,46 @@
+name: CI Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: |
+            docs/**/*.{md,mdx}
+            blog/**/*.{md,mdx}
+
+  custom-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Filename & directory lint
+        run: bash scripts/check-filenames.sh
+      - name: Frontmatter coverage
+        uses: actions/setup-node@v4
+        with: { node-version: '24' }
+      - run: node scripts/check-frontmatter.js
+      - name: Placeholder check
+        run: bash scripts/check-placeholder.sh
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - name: Build site (strict broken-link checking)
+        run: npm run build:ci
+      - if: always()
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
