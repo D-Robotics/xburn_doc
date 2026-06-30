@@ -2,7 +2,7 @@
   "config": {
     "default": false,
     "MD001": true,        // 标题层级不能跳跃
-    "MD025": true,        // 每页只有一个 H1
+    "MD025": { "front_matter_title": "" },        // 每页只有一个 H1；frontmatter 的 title 不算 H1（Docusaurus 用 frontmatter title 做侧边栏标签，正文另有 H1）
     "MD040": true,        // 代码块必须指定语言
     "MD042": true,        // 空链接不允许
     "MD045": true         // 图片必须有 alt 文本
