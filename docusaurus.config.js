@@ -15,7 +15,8 @@ const config = {
   url: "https://developer.d-robotics.cc",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/docs/",
+  // baseUrl 与各兄弟仓一致取 repo 名(/<projectName>/),产物最终进 gh-pages 的 /xburn_doc 子路径
+  baseUrl: "/xburn_doc/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -76,7 +77,7 @@ const config = {
         logo: {
           alt: "地瓜机器人社区 logo",
           src: "img/logo.png",
-          href: "https://d-robotics.cc/", // 修改为文档根路径
+          href: "https://d-robotics.cc/", // brand 由 src/theme/Navbar/Logo swizzle 接管,此 href 不生效
         },
         items: [
           {
