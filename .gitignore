@@ -18,3 +18,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# 本地临时调试脚本(非文档站组成部分)
+parse_tight.js
+parsesample.js

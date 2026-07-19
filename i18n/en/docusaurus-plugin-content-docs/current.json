@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.环境准备": {
+    "message": "环境准备",
+    "description": "The label for category '环境准备' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.烧录配置": {
+    "message": "烧录配置",
+    "description": "The label for category '烧录配置' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.异常处理": {
+    "message": "异常处理",
+    "description": "The label for category '异常处理' in sidebar 'tutorialSidebar'"
+  }
+}

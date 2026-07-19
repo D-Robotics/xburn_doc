@@ -5,23 +5,16 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function HomeRedirect() {
   const history = useHistory();
-
-  // useEffect(() => {
-  //   // 重定向到外部 URL
-  //   window.location.href = 'https://d-robotics.cc/';
-  // }, []);
   const { i18n } = useDocusaurusContext();
-  console.log(i18n.currentLocale)
-  useEffect(() => {
-    // 重定向到文档的首页路径
-    if(i18n.currentLocale==="zh-Hans"){
-      history.push('/magicbox_doc/magicbox');
-    }else{
-      history.push('/magicbox_doc/en/magicbox');
-    }
-      
 
-  }, [history]);
+  useEffect(() => {
+    // 首页重定向到文档首页（whats-new）；中英按 locale 路由分流
+    if (i18n.currentLocale === 'zh-Hans') {
+      history.push('/xburn_doc/whats-new');
+    } else {
+      history.push('/xburn_doc/en/whats-new');
+    }
+  }, [history, i18n]);
 
   return null; // 不渲染任何内容
 }
