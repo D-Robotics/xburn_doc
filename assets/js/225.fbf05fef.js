@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkxburn_doc=globalThis.webpackChunkxburn_doc||[]).push([[225],{225(c,e,r){r.d(e,{createArchitectureServices:()=>u.S});var u=r(7713);r(808)}}]);
