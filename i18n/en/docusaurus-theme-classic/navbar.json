@@ -4,11 +4,11 @@
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "地瓜机器人社区 logo",
+    "message": "D-Robotics community logo",
     "description": "The alt text of navbar logo"
   },
   "item.label.Xburn": {
-    "message": "Xburn",
+    "message": "XBurn",
     "description": "Navbar item with label Xburn"
   },
   "item.label.Community": {
