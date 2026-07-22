@@ -84,7 +84,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "tutorialSidebar",
             position: "left",
-            label: "Xburn",
+            label: "XBurn",
           },
           {
             href: "https://developer.d-robotics.cc/",

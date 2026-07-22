@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "D-Robotics",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "D-Robotics community logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Xburn": {
+    "message": "XBurn",
+    "description": "Navbar item with label Xburn"
+  },
+  "item.label.Community": {
+    "message": "Community",
+    "description": "Navbar item with label Community"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}
