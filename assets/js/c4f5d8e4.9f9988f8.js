@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkxburn_doc=globalThis.webpackChunkxburn_doc||[]).push([[2634],{192(n,u,c){c.r(u),c.d(u,{default:()=>t});var s=c(6540),e=c(6347),r=c(4586);const t=function(){const n=(0,e.W6)(),{i18n:u}=(0,r.A)();return(0,s.useEffect)(()=>{"zh-Hans"===u.currentLocale?n.push("/xburn_doc/whats-new"):n.push("/xburn_doc/en/whats-new")},[n,u]),null}}}]);
