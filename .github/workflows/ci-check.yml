@@ -69,18 +69,6 @@ jobs:
           npm ci
       - name: Build site (strict broken-link checking)
         run: npm run build:ci
-      - name: Install lychee
-        run: npm install -g lychee-link-checker
-      - name: Link Checker (lychee)
-        run: >
-          lychee
-          --base ${{ github.workspace }}/build
-          --accept 200,204,301,302,429
-          --timeout 30
-          --max-retries 2
-          ./build/**/*.html
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - if: always()
         run: |
           echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
