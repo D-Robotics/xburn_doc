@@ -6,6 +6,9 @@
 
 import { themes as prismThemes } from "prism-react-renderer";
 
+// 英文站静态资源挂在 /en/ 子路径下，埋点脚本 src 需带 locale 前缀，否则英文站 404
+const localePrefix = process.env.DOCUSAURUS_CURRENT_LOCALE === "en" ? "/en" : "";
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Xburn",
@@ -26,6 +29,24 @@ const config = {
   // 本地开发用 throw 严格模式；CI 用独立的 docusaurus.ci.config.js
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
+
+  //add vy xgs for analysis
+  scripts: [
+    {
+      src: `/xburn_doc${localePrefix}/js/umami-events.js`,
+      defer: true,
+    },
+  ],
+  headTags: [
+    {
+      tagName: "script",
+      attributes: {
+        defer: "defer",
+        src: "https://cloud.umami.is/script.js",
+        "data-website-id": "b0c771b8-947e-4fa4-8880-606ecab89c36",
+      },
+    },
+  ],
 
   // add by xgs for translate
   i18n: {
