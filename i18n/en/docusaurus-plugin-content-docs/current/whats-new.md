@@ -5,6 +5,12 @@ description: "Release highlights for each XBurn version (added / improved / fixe
 
 # What's new
 
+## V1.2.2 (2026-10-15)
+
+**Added**
+
+- Partition-image backup (RDK S100 / RDK S600).
+
 ## V1.2.1 (2026-06-01)
 
 **Added**
