@@ -7,6 +7,10 @@ description: "Batch flashing limits and hardware requirements: software limit of
 
 XBurn supports connecting multiple devices at the same time for batch flashing, suitable for production lines and bulk flashing scenarios. However, concurrent multi-device flashing places requirements on USB power, bandwidth, and cable quality, and **the more devices connected, the higher the failure rate**. The software only controls the flashing process itself and cannot guarantee your hardware environment. This page explains the limits and requirements.
 
+:::note
+Batch flashing supports only flashing, not backing up. Back up one device at a time.
+:::
+
 ## Limits and recommendations
 
 | Parameter | Value | Description |
