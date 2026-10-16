@@ -41,7 +41,7 @@ An NVMe image can be flashed, but whether the device can boot from NVMe is deter
 
 ## Backup image naming
 
-A backup image appends `_backup` to the original image name (for example, `miniboot_flash.img` → `miniboot_flash_backup.img`). For the backupable regions and image lists per model, see each product's flashing docs.
+A region backup image appends `_backup` to the original image name (for example, `miniboot_flash.img` → `miniboot_flash_backup.img`); a partition backup image is named after the partition with no suffix (for example, `boot.img`). For the backupable regions/partitions and image lists per model, see each product's flashing docs.
 
 :::warning Reflashing a backup image
 When reusing a backup image for flashing, remove `_backup` from the file name and use the same extension as when flashing that region: base boot regions use `.img` (`miniboot_flash_backup.img` → `miniboot_flash.img`), and whole-disk regions use `.simg` (`ufs_disk_backup.img` → `ufs_disk.simg`).

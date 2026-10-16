@@ -62,7 +62,8 @@ The following features are supported:
 - **Region flashing**: the image is written only to a specified region.
 - **Region backup**: export the current image of a region on the device to the PC.
 - **Partition-image flashing**: the image is written only to a single partition, at a finer granularity than region flashing.
+- **Partition-image backup**: export the current image of a single partition on the device to the PC, at a finer granularity than region backup.
 - **Auto-reboot after flashing**: after flashing completes, the device automatically reboots into normal boot mode, saving manual power-off and switch operation.
 - **Check whether the device booted successfully**: after reboot, automatically check whether the device booted normally, saving manual power-on and inspection.
 
-The first three (region flashing, region backup, partition-image flashing) are mutually exclusive — select only one at a time; the last two can be combined with the first three. See [Batch flashing](./batch-burn) and [Auto-reboot after flashing and boot check](./auto-reboot).
+See [Batch flashing](./batch-burn) and [Auto-reboot after flashing and boot check](./auto-reboot).
