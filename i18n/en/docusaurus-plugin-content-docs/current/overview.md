@@ -15,6 +15,7 @@ Core capabilities:
 | Region flashing | Write only a specified region (such as miniboot) | ✅ | ✅ | ✅ | ✅ |
 | Region backup | Export and save the current image of a region on the device | ✅ | ✅ | ❌ | ❌ |
 | Partition-image flashing | Write the image of a single partition | ✅ | ✅ | ❌ | ❌ |
+| Partition-image backup | Export and save the current image of a single partition on the device | ✅ | ✅ | ❌ | ❌ |
 
 ## Next steps
 

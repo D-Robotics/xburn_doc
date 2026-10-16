@@ -41,7 +41,7 @@ NVMe 镜像可烧录，但设备能否从 NVMe 启动由启动拨码决定，各
 
 ## 备份镜像命名
 
-备份镜像在原镜像名后加 `_backup`（如 `miniboot_flash.img` → `miniboot_flash_backup.img`）。各型号可备份区域与镜像清单见各产品烧录文档。
+区域备份镜像在原镜像名后加 `_backup`（如 `miniboot_flash.img` → `miniboot_flash_backup.img`）；分区备份镜像不加后缀，直接以分区名命名（如 `boot.img`）。各型号可备份区域/分区与镜像清单见各产品烧录文档。
 
 :::warning 备份镜像再烧录
 备份镜像再用于烧录时，去掉文件名中的 `_backup`，后缀与该区域烧录时一致：基础启动区域用 `.img`（`miniboot_flash_backup.img` → `miniboot_flash.img`），整盘区域用 `.simg`（`ufs_disk_backup.img` → `ufs_disk.simg`）。
