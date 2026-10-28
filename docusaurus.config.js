@@ -9,9 +9,19 @@ import { themes as prismThemes } from "prism-react-renderer";
 // 英文站静态资源挂在 /en/ 子路径下，埋点脚本 src 需带 locale 前缀，否则英文站 404
 const localePrefix = process.env.DOCUSAURUS_CURRENT_LOCALE === "en" ? "/en" : "";
 
+const COPYRIGHT_START_YEAR = 2026;
+const currentYear = new Date().getFullYear();
+const copyrightYearLabel =
+  currentYear > COPYRIGHT_START_YEAR
+    ? `${COPYRIGHT_START_YEAR}-${currentYear}`
+    : `${COPYRIGHT_START_YEAR}`;
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Xburn",
+  title:
+    process.env.DOCUSAURUS_CURRENT_LOCALE === "en"
+      ? "XBurn User Manual"
+      : "XBurn 用户手册",
   // tagline: 'Dinosaurs are cool',
   favicon: "img/logo.png",
   // Set the production url of your site here
@@ -96,7 +106,7 @@ const config = {
       navbar: {
         title: "D-Robotics",
         logo: {
-          alt: "地瓜机器人社区 logo",
+          alt: "地瓜 logo",
           src: "img/logo.png",
           href: "https://d-robotics.cc/", // brand 由 src/theme/Navbar/Logo swizzle 接管,此 href 不生效
         },
@@ -138,35 +148,21 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} D-Robotics.`,
+        copyright: `Copyright © ${copyrightYearLabel} D-Robotics.`,
+      },
+      algolia: {
+        appId: process.env.ALGOLIA_APP_ID || "1VU781LYTV",
+        apiKey: process.env.ALGOLIA_SEARCH_API_KEY || "fb65c6e54a52ce6fba0645bd2630e79b",
+        indexName: process.env.ALGOLIA_INDEX_NAME || "xburn_doc",
+        contextualSearch: true,
+        searchPagePath: "search",
       },
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
       },
     }),
-  themes: [
-    "@docusaurus/theme-mermaid",
-    [
-      require.resolve("@easyops-cn/docusaurus-search-local"),
-      {
-        // 性能优化
-        hashed: true, // 启用长期缓存
-        language: ["en", "zh"], // 中英文支持
-        highlightSearchTermsOnTargetPage: true,
-        explicitSearchResultPath: true,
-        docsRouteBasePath: "/", // 文档路径
-        
-        // 优化索引大小和加载速度
-        indexDocs: true,
-        indexBlog: false, // 禁用博客索引
-        indexPages: false, // 禁用页面索引
-        
-        // 搜索行为优化
-        searchResultContextMaxLength: 50, // 减少上下文长度
-      },
-    ],
-  ],
+  themes: ["@docusaurus/theme-mermaid"],
 };
 
 export default config;
