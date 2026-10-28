@@ -12,16 +12,18 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "algolia:index": "node scripts/algolia-index.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.9.2",
     "@docusaurus/preset-classic": "3.9.2",
     "@docusaurus/theme-mermaid": "^3.9.2",
-    "@easyops-cn/docusaurus-search-local": "^0.55.0",
     "@giscus/react": "^3.1.0",
     "@mdx-js/react": "^3.0.0",
+    "cheerio": "^1.2.0",
     "clsx": "^2.0.0",
+    "dotenv": "^18.0.9",
     "medium-zoom": "^1.1.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",

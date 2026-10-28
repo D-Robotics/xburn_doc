@@ -6,9 +6,5 @@
   "link.item.label.GitHub": {
     "message": "GitHub",
     "description": "The label of footer link with label=GitHub linking to https://github.com/D-Robotics"
-  },
-  "copyright": {
-    "message": "Copyright © 2026 D-Robotics.",
-    "description": "The footer copyright"
   }
 }
