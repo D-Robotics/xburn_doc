@@ -473,43 +473,122 @@ async function crawlSite() {
   return pages;
 }
 
-async function ensureIndexSettings() {
-  console.log(`[algolia-index] Applying DocSearch settings to ${INDEX_NAME}`);
-  await algoliaRequest(`/1/indexes/${encodeURIComponent(INDEX_NAME)}/settings`, {
-    method: "PUT",
-    body: INDEX_SETTINGS,
-  });
+function temporaryIndexName() {
+  return `${INDEX_NAME}_tmp_${Date.now().toString(36)}`;
 }
 
-async function clearIndex() {
-  console.log(`[algolia-index] Clearing index ${INDEX_NAME}`);
-  await algoliaRequest(`/1/indexes/${encodeURIComponent(INDEX_NAME)}/clear`, {
-    method: "POST",
-    body: {},
-  });
+async function ensureIndexSettings(indexName) {
+  console.log(`[algolia-index] Applying DocSearch settings to ${indexName}`);
+  const data = await algoliaRequest(
+    `/1/indexes/${encodeURIComponent(indexName)}/settings`,
+    {
+      method: "PUT",
+      body: INDEX_SETTINGS,
+    },
+  );
+  return data.taskID;
 }
 
-async function uploadRecords(records) {
-  console.log(`[algolia-index] Uploading ${records.length} records`);
+async function uploadRecords(indexName, records) {
+  console.log(`[algolia-index] Uploading ${records.length} records to ${indexName}`);
+  let taskID;
   for (let i = 0; i < records.length; i += BATCH_SIZE) {
     const chunk = records.slice(i, i + BATCH_SIZE);
-    await algoliaRequest(`/1/indexes/${encodeURIComponent(INDEX_NAME)}/batch`, {
-      method: "POST",
-      body: {
-        requests: chunk.map((record) => ({
-          action: "addObject",
-          body: record,
-        })),
+    const data = await algoliaRequest(
+      `/1/indexes/${encodeURIComponent(indexName)}/batch`,
+      {
+        method: "POST",
+        body: {
+          requests: chunk.map((record) => ({
+            action: "addObject",
+            body: record,
+          })),
+        },
       },
-    });
+    );
+    taskID = data.taskID ?? taskID;
     console.log(
       `[algolia-index] Uploaded ${Math.min(i + chunk.length, records.length)}/${records.length}`,
     );
   }
+  return taskID;
+}
+
+async function waitForTask(indexName, taskID, { allowMissing = false } = {}) {
+  if (taskID == null) return;
+  const deadline = Date.now() + 120_000;
+  while (Date.now() < deadline) {
+    try {
+      const data = await algoliaRequest(
+        `/1/indexes/${encodeURIComponent(indexName)}/task/${taskID}`,
+      );
+      if (data.status === "published") return;
+    } catch (err) {
+      const apiMessage = String(err.data?.message || "");
+      const indexGone =
+        allowMissing &&
+        err.status === 404 &&
+        /index .* does not exist/i.test(apiMessage);
+      // A finished move deletes the source index. Any other 404 is retried.
+      if (indexGone) return;
+      if (!(allowMissing && err.status === 404)) throw err;
+    }
+    await new Promise((r) => setTimeout(r, 1000));
+  }
+  throw new Error(
+    `Timed out waiting for Algolia task ${taskID} on ${indexName}`,
+  );
+}
+
+async function moveIndex(source, destination) {
+  console.log(`[algolia-index] Moving ${source} -> ${destination}`);
+  return algoliaRequest(
+    `/1/indexes/${encodeURIComponent(source)}/operation`,
+    {
+      method: "POST",
+      body: {
+        operation: "move",
+        destination,
+      },
+    },
+  );
+}
+
+async function deleteIndexIfExists(indexName) {
+  try {
+    await algoliaRequest(`/1/indexes/${encodeURIComponent(indexName)}`, {
+      method: "DELETE",
+    });
+    console.log(`[algolia-index] Deleted temporary index ${indexName}`);
+  } catch (err) {
+    if (err.status !== 404) {
+      console.warn(
+        `[algolia-index] Could not delete temporary index ${indexName}: ${err.message}`,
+      );
+    }
+  }
+}
+
+// Write the new index aside, then rename it over the live one.
+// A failed batch leaves the published index unchanged.
+async function replaceIndex(records) {
+  const tmpName = temporaryIndexName();
+  let moved = false;
+  try {
+    const settingsTask = await ensureIndexSettings(tmpName);
+    const uploadTask = await uploadRecords(tmpName, records);
+    await waitForTask(tmpName, uploadTask ?? settingsTask);
+    const response = await moveIndex(tmpName, INDEX_NAME);
+    moved = true;
+    await waitForTask(tmpName, response.taskID, { allowMissing: true });
+  } catch (err) {
+    if (!moved) await deleteIndexIfExists(tmpName);
+    throw err;
+  }
 }
 
 async function verifySearch() {
-  const query = "RDK 音频套件";
+  const query = "XBurn";
   console.log(`[algolia-index] Verifying search query="${query}"`);
   const data = await algoliaRequest(
     `/1/indexes/${encodeURIComponent(INDEX_NAME)}/query`,
@@ -552,7 +631,7 @@ async function main() {
 
   const pages = await crawlSite();
   if (!pages.length) {
-    throw new Error("No pages crawled; aborting without clearing index");
+    throw new Error("No pages crawled; aborting without replacing index");
   }
 
   /** @type {any[]} */
@@ -563,13 +642,11 @@ async function main() {
   }
   console.log(`[algolia-index] Built ${records.length} DocSearch records`);
   if (!records.length) {
-    throw new Error("No records extracted; aborting without clearing index");
+    throw new Error("No records extracted; aborting without replacing index");
   }
 
-  await ensureIndexSettings();
-  await clearIndex();
-  await uploadRecords(records);
-  // Small delay helps Search API see fresh objects on free tier
+  await replaceIndex(records);
+  // Search replicas can lag the primary for a moment after the move is published.
   await new Promise((r) => setTimeout(r, 2000));
   await verifySearch();
   console.log("[algolia-index] Done");
