@@ -39,15 +39,12 @@ export default function NavbarLogo() {
     ? 'https://d-robotics.github.io/rdk_doc_center/en/'
     : 'https://developer.d-robotics.cc/rdk_doc_center/';
 
-  const fallbackAlt = logo?.alt ?? title;
-  const alt = logo?.alt ?? fallbackAlt;
-
   return (
     <Link href={docCenterUrl} className="navbar__brand">
       {logo && (
         <LogoThemedImage
           logo={logo}
-          alt={alt}
+          alt={logo.alt}
           imageClassName="navbar__logo"
         />
       )}

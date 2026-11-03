@@ -4,12 +4,12 @@
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "D-Robotics community logo",
+    "message": "D-Robotics logo",
     "description": "The alt text of navbar logo"
   },
-  "item.label.Xburn": {
+  "item.label.XBurn": {
     "message": "XBurn",
-    "description": "Navbar item with label Xburn"
+    "description": "Navbar item with label XBurn"
   },
   "item.label.Community": {
     "message": "Community",

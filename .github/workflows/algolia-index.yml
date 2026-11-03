@@ -1,0 +1,42 @@
+name: Update Algolia DocSearch Index
+
+# 在文档同步到 OSS（线上站点）成功后更新索引；也支持手动触发。
+# Write/Admin API Key 仅通过 GitHub Secrets 注入，切勿写入仓库文件。
+on:
+  workflow_run:
+    workflows: ["Sync gh-pages to OSS"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  algolia-index:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure Admin/Write API Key secret is configured
+        env:
+          ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
+        run: |
+          if [ -z "$ALGOLIA_ADMIN_API_KEY" ]; then
+            echo "::error::Missing repository secret ALGOLIA_ADMIN_API_KEY"
+            echo "Add it in GitHub → Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+
+      # 给 OSS/CDN 一点传播时间，再抓取线上站点
+      - name: Wait for published site to settle
+        if: ${{ github.event_name == 'workflow_run' }}
+        run: sleep 45
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Crawl live site and update Algolia index
+        env:
+          ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
+        run: npm run algolia:index
