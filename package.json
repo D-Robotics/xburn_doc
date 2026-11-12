@@ -16,7 +16,7 @@
     "algolia:index": "node scripts/algolia-index.mjs"
   },
   "dependencies": {
-    "@d-robotics/docusaurus-plugin-guaji": "0.1.0",
+    "@d-robotics/docusaurus-plugin-guaji": "https://static.d-robotics.cc/npm-plugin/d-robotics-docusaurus-plugin-guaji-0.1.1.tgz",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/preset-classic": "3.9.2",
     "@docusaurus/theme-mermaid": "^3.9.2",
