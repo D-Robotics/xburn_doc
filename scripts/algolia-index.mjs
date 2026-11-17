@@ -421,10 +421,31 @@ function extractLinks(pageUrl, html) {
   return [...links];
 }
 
+async function fetchSitemapUrls() {
+  const urls = [];
+  for (const sitemapUrl of [`${SITE_URL}sitemap.xml`, `${SITE_URL}en/sitemap.xml`]) {
+    try {
+      const res = await fetch(sitemapUrl, {
+        headers: { "User-Agent": "xburn_doc-algolia-indexer/1.0" },
+        redirect: "follow",
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const xml = await res.text();
+      const found = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+      urls.push(...found);
+      console.log(`[algolia-index] Discovered ${found.length} URLs from ${sitemapUrl}`);
+    } catch (err) {
+      console.warn(`[algolia-index] Sitemap not used (${sitemapUrl}): ${err.message}`);
+    }
+  }
+  return urls.map(normalizePageUrl).filter((u) => u && isIndexablePageUrl(u));
+}
+
 async function crawlSite() {
-  const siteRoot = normalizePageUrl(SITE_URL);
-  const enRoot = normalizePageUrl(new URL("en/", SITE_URL).href);
-  const seed = [siteRoot, enRoot, normalizePageUrl(new URL("en/introduction", SITE_URL).href)].filter(Boolean);
+  const sitemapSeeds = await fetchSitemapUrls();
+  // 站点根路径必须保留尾斜杠，否则 nginx 返回 404（原实现 normalize 后去掉了）
+  const rawSeeds = [SITE_URL, new URL("en/", SITE_URL).href];
+  const seed = [...new Set([...sitemapSeeds, ...rawSeeds])].filter(Boolean);
 
   const queue = [...new Set(seed)];
   const seen = new Set();
