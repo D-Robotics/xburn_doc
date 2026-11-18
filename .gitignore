@@ -24,3 +24,6 @@ yarn-error.log*
 # 本地临时调试脚本(非文档站组成部分)
 parse_tight.js
 parsesample.js
+
+# Algolia/MCP 索引中间产物
+scripts/_algolia_tmp/

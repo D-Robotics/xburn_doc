@@ -11,6 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as cheerio from "cheerio";
 import { config as loadDotenv } from "dotenv";
+import { writeEasyopsIndex } from "./easyops-index.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -665,6 +666,13 @@ async function main() {
   if (!records.length) {
     throw new Error("No records extracted; aborting without replacing index");
   }
+
+  // MCP 读取的 search-index.json 与 Algolia 索引是两份产物，必须一起产出。
+  writeEasyopsIndex(
+    records,
+    path.join(rootDir, "scripts/_algolia_tmp/search-index.json"),
+    { titleType: "lvl1" },
+  );
 
   await replaceIndex(records);
   // Search replicas can lag the primary for a moment after the move is published.
