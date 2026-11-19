@@ -16,9 +16,9 @@ description: "eMMC / UFS / NAND / NVMe 四种介质与区域模型，miniboot_fl
 | eMMC | 板载 | RDK S100 | ✅ | ✅ |
 | UFS | 板载 | RDK S600 | ✅ | ✅ |
 | NAND | 板载 | RDK X5 | ✅ | ❌ |
-| NVMe | M.2 扩展 | RDK S600 等 | ✅ | ✅ |
+| NVMe | M.2 扩展 | RDK S600、RDK S100（4.1.0 及以上） | ✅ | ✅ |
 
-除上述介质外，部分型号还有一块独立的基础启动区域 `miniboot_flash`，含 HSM/MCU0、BL31/U-Boot 等启动组件——它比系统镜像更底层，烧全镜像会一并覆盖它，也可单独烧录只更新 Bootloader 而不重刷整盘。其物理位置因型号而异：S100/S600 在 Norflash，RDK X5 在板载 NAND。
+除上述介质外，部分型号还有一块独立的基础启动区域 `miniboot_flash`，含 HSM/MCU0、BL31/U-Boot 等启动组件——它比系统镜像更底层，烧全镜像会一并覆盖它，也可单独烧录只更新 Bootloader 而不重刷整盘。其物理位置因型号而异：S100/S600 在 NOR Flash，RDK X5 在板载 NAND。
 
 ## 区域模型
 
@@ -36,7 +36,7 @@ description: "eMMC / UFS / NAND / NVMe 四种介质与区域模型，miniboot_fl
 | sdcard | 整盘 | 系统镜像 | 目前固定为 NAND |
 
 :::info 能烧 NVMe ≠ 能从 NVMe 启动
-NVMe 镜像可烧录，但设备能否从 NVMe 启动由启动拨码决定，各型号不同（如 S100 不可从 NVMe 启动、S600 可）。能否启动以各产品烧录文档为准。
+NVMe 镜像可烧录，但设备能否从 NVMe 启动由启动拨码决定，各型号、各版本不同：RDK S600 支持；RDK S100 自 4.1.0 起支持（需 V0P6 及以上硬件）。能否启动以各产品烧录文档为准。
 :::
 
 ## 备份镜像命名
