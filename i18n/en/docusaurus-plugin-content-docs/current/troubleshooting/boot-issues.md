@@ -30,7 +30,7 @@ Troubleshooting boot issues relies heavily on the serial log. If you have not se
 
 **Cause**: on some models, the boot disk must be selected via a switch. A wrong switch position means the device does not boot from the flashed media.
 
-**Solution**: taking the RDK S100 as an example, set the SW3 switch to boot from the onboard eMMC (booting from the M.2 NVMe SSD is not supported). For the boot-disk selection method per model, see the corresponding product's flashing docs and hardware introduction.
+**Solution**: taking the RDK S100 as an example, the SW3 switch selects the boot disk: set it to `D13=0, D12=1` to boot from the onboard eMMC, or `D13=1, D12=0` to boot from the M.2 NVMe SSD (4.1.0 and later). For the boot-disk selection method per model, see the corresponding product's flashing docs and hardware introduction.
 
 ## Flashing mode not exited
 

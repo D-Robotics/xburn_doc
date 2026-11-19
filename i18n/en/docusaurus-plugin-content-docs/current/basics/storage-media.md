@@ -16,9 +16,9 @@ In the table below, "flash" and "backup" both refer to the **region** granularit
 | eMMC | Onboard | RDK S100 | ✅ | ✅ |
 | UFS | Onboard | RDK S600 | ✅ | ✅ |
 | NAND | Onboard | RDK X5 | ✅ | ❌ |
-| NVMe | M.2 expansion | RDK S600, etc. | ✅ | ✅ |
+| NVMe | M.2 expansion | RDK S600, RDK S100 (4.1.0 and later) | ✅ | ✅ |
 
-In addition to the media above, some models have a separate base boot region, `miniboot_flash`, containing boot components such as HSM/MCU0 and BL31/U-Boot. It is more low-level than the system image: full-image flashing overwrites it as well, and you can also flash it alone to update only the Bootloader without reflashing the entire disk. Its physical location varies by model: on the S100/S600 it is on the Norflash, and on the RDK X5 it is on the onboard NAND.
+In addition to the media above, some models have a separate base boot region, `miniboot_flash`, containing boot components such as HSM/MCU0 and BL31/U-Boot. It is more low-level than the system image: full-image flashing overwrites it as well, and you can also flash it alone to update only the Bootloader without reflashing the entire disk. Its physical location varies by model: on the S100/S600 it is on NOR Flash, and on the RDK X5 it is on the onboard NAND.
 
 ## Region model
 
@@ -36,7 +36,7 @@ Flashing is performed in units of "regions", and the storage media determines wh
 | sdcard | Whole disk | System image | Currently fixed as NAND |
 
 :::info Flashing NVMe ≠ booting from NVMe
-An NVMe image can be flashed, but whether the device can boot from NVMe is determined by the boot switch, and varies by model (for example, the S100 cannot boot from NVMe, the S600 can). Whether boot is supported follows each product's flashing docs.
+An NVMe image can be flashed, but whether the device can boot from NVMe is determined by the boot switch and varies by model and version: RDK S600 supports it; RDK S100 supports it from 4.1.0 (requires V0P6 or later hardware). Whether boot is supported follows each product's flashing docs.
 :::
 
 ## Backup image naming
