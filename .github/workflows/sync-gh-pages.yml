@@ -27,6 +27,7 @@ jobs:
         timeout-minutes: 15
         with:
           ref: gh-pages
+          persist-credentials: false
           # 浅克隆即可同步静态文件；fetch-depth: 0 会触发 --unshallow 全量拉取，易因 TLS 超时失败
 
       - name: Retry checkout gh-pages branch
@@ -35,6 +36,7 @@ jobs:
         timeout-minutes: 15
         with:
           ref: gh-pages
+          persist-credentials: false
 
       - name: Setup ossutil v2
         run: |
@@ -50,6 +52,9 @@ jobs:
           OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
         run: |
           ~/ossutil cp -r . oss://cn-rdk-front-prod/xburn_doc/ \
+          --exclude "/.git/**" \
+          --exclude "/ossutil.zip" \
+          --exclude "/ossutil-*/**" \
           -e https://d-robotics.cc \
           -i $OSS_ACCESS_KEY_ID \
           -k $OSS_ACCESS_KEY_SECRET \
